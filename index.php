@@ -34,18 +34,20 @@ if(!$c) echo "<h2>Нет соединения с БД!</h2>";
 <?php
 
 if(isset($_POST['form-submit'])) {
-    if(intval(date("H")) >= 00 && intval(date("H")) <= 05) { // Промежуток времени с 00 до 05 часов
-        $date = date("y-m-d"); // Запись на текущий день
-    }
-    else { // Промежуток времени с 06 до 23 часов
-        $date = date("Y-m-d", strtotime("+1 day")); // Запись на следующий день
-    }
 
     $query = "SELECT COUNT(*) FROM `records` WHERE `session_id` = '" . $session_id . "' AND DATE(`datetime`) = '" . $date . "'";
     $result = mysqli_query($connect, $query);
     $row = mysqli_fetch_row($result);
 
     if(intval($row[0]) < 2) {
+
+        if(intval(date("H")) >= 00 && intval(date("H")) <= 05) { // Промежуток времени с 00 до 05 часов
+            $date = date("Y-m-d"); // Запись на текущий день
+        }
+        else { // Промежуток времени с 06 до 23 часов
+            $date = date("Y-m-d", strtotime("+1 day")); // Запись на следующий день
+        }
+
         $query = "INSERT INTO `records` VALUES (null, '" . $session_id . "', '" . $_POST['user-name'] . "', '" . $date . " " . $_POST['time'] . "')";
         mysqli_query($connect, $query);
         echo $_POST['user-name'] . ", Вы успешно записались на " . $date . ", " . $_POST['time'];
