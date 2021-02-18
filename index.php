@@ -26,7 +26,7 @@ if(!$c) echo "<h2>Нет соединения с БД!</h2>";
         Ваше имя: <input type="text" name="user-name" required>
     </p>
     <p>
-        Время записи: <input type="time" name="time" min="<?= date("y-m-d"); ?>" required>
+        Время записи: <input type="time" name="time" required>
     </p>
     <input type="submit" name="form-submit" value="Записаться">
 </form>
